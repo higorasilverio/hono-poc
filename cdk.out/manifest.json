@@ -1,0 +1,128 @@
+{
+  "version": "44.0.0",
+  "artifacts": {
+    "HonoPocStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "HonoPocStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "HonoPocStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "HonoPocStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/3d91a0d6178648a7ca03b066d0cedfd0aed5be4d89e2b5ce0e7b305ffbacb744.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "HonoPocStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "HonoPocStack.assets"
+      ],
+      "metadata": {
+        "/HonoPocStack/ItemsTable": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "ItemsTable5AAC2C46"
+            }
+          }
+        ],
+        "/HonoPocStack/ItemsTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ItemsTable5AAC2C46"
+          }
+        ],
+        "/HonoPocStack/lambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "lambdaServiceRole494E4CA6"
+          }
+        ],
+        "/HonoPocStack/lambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "lambdaServiceRoleDefaultPolicyBF6FA5E7"
+          }
+        ],
+        "/HonoPocStack/lambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "lambda8B5974B5"
+          }
+        ],
+        "/HonoPocStack/lambda/FunctionUrl/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "lambdaFunctionUrl327AA8ED"
+          }
+        ],
+        "/HonoPocStack/lambda/invoke-function-url": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "lambdainvokefunctionurl8987155C"
+          }
+        ],
+        "/HonoPocStack/lambdaUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "lambdaUrl"
+          }
+        ],
+        "/HonoPocStack/tableName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "tableName"
+          }
+        ],
+        "/HonoPocStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/HonoPocStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/HonoPocStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/HonoPocStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "HonoPocStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  },
+  "minimumCliVersion": "2.1018.0"
+}
