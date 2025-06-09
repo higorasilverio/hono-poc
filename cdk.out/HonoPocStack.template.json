@@ -578,7 +578,7 @@
     "AllocatedStorage": "100",
     "CopyTagsToSnapshot": true,
     "DBInstanceClass": "db.t3.micro",
-    "DBName": "myrdbapp",
+    "DBName": "MyRDBDatabase",
     "DBSubnetGroupName": {
      "Ref": "MyRDSInstanceSubnetGroup5EA5E186"
     },
@@ -738,7 +738,7 @@
     },
     "Environment": {
      "Variables": {
-      "DB_NAME": "myrdbapp",
+      "DB_NAME": "MyRDBDatabase",
       "DB_SECRET_NAME": {
        "Fn::Join": [
         "-",

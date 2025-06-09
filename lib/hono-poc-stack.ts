@@ -20,7 +20,7 @@ export class HonoPocStack extends cdk.Stack {
       vpcSubnets: { subnetType: ec2.SubnetType.PUBLIC },
       publiclyAccessible: true,
       credentials: rds.Credentials.fromGeneratedSecret('admin'),
-      databaseName: 'myrdbapp',
+      databaseName: 'MyRDBDatabase',
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       deletionProtection: false,
     })
@@ -31,7 +31,7 @@ export class HonoPocStack extends cdk.Stack {
       runtime: lambda.Runtime.NODEJS_18_X,
       vpc,
       environment: {
-        DB_NAME: 'myrdbapp',
+        DB_NAME: 'MyRDBDatabase',
         DB_SECRET_NAME: dbInstance.secret!.secretName,
       },
     })
