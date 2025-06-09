@@ -1,11 +1,11 @@
-# 🔥 Hono RESTful API on AWS Lambda with DynamoDB
+# 🔥 Hono RESTful API on AWS Lambda with RDS (MySQL)
 
-A lightweight serverless CRUD API built with [Hono](https://hono.dev/), deployed using AWS Lambda and provisioned with AWS CDK. Data is stored persistently in DynamoDB.
+A lightweight serverless CRUD API built with [Hono](https://hono.dev/), deployed using AWS Lambda and provisioned with AWS CDK. Data is stored persistently in a MySQL-compatible RDS instance.
 
 ## 🚀 Features
 
 - ⚡️ Fast and minimal REST API using [Hono](https://hono.dev/)
-- 🗃️ Persistent storage with DynamoDB
+- 🗄️ Persistent storage with Amazon RDS (MySQL engine)
 - ☁️ Serverless deployment via AWS Lambda
 - 🛠️ Infrastructure as Code with AWS CDK (TypeScript)
 - 🧪 Supports full CRUD: POST, GET, PUT, DELETE
@@ -14,17 +14,17 @@ A lightweight serverless CRUD API built with [Hono](https://hono.dev/), deployed
 
 - [Hono](https://hono.dev/) (framework)
 - [AWS Lambda](https://aws.amazon.com/lambda/)
-- [AWS DynamoDB](https://aws.amazon.com/dynamodb/)
+- [Amazon RDS – MySQL](https://aws.amazon.com/rds/mysql/)
 - [AWS CDK](https://docs.aws.amazon.com/cdk/)
+- [Drizzle ORM](https://orm.drizzle.team/)
 - [TypeScript](https://www.typescriptlang.org/)
 
 ## 📂 Endpoints
 
 `POST` /items → create new item  
 `GET` /items → list all items  
-`GET` /items/:id → get item by ID  
 `PUT` /items/:id → update item  
-`DELETE` /items/:id → delete item  
+`DELETE` /items/:id → delete item
 
 ## ✅ Example
 
@@ -41,19 +41,38 @@ curl -X POST https://your-url/items -H "Content-Type: application/json" -d '{"na
 npm install
 ```
 
-2. **Bootstrap your AWS environment (first time only)**
+2. **Set up environment variables**
+
+```bash
+DB_HOST=your-db-hostname
+DB_PORT=your-db-port
+DB_USER=your-db-user
+DB_PASSWORD=your-db-password
+DB_NAME=your-db-name
+```
+> **Important**: Do not commit .env to GitHub. It's ignored via .gitignore.
+
+3. **Push the database schema**
+
+Run the following to sync your schema to the RDS instance:
+
+```bash
+npx drizzle-kit push
+```
+
+4. **Bootstrap your AWS environment (first time only)**
 
 ```bash
 npx cdk bootstrap
 ```
 
-3. **Deploy the app**
+5. **Deploy the app**
 
 ```bash
 npx cdk deploy
 ```
 
-4. **Get the API URL**
+6. **Get the API URL**
 
 Look for the output:
 
