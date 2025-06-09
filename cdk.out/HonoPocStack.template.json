@@ -1,30 +1,621 @@
 {
  "Resources": {
-  "ItemsTable5AAC2C46": {
-   "Type": "AWS::DynamoDB::Table",
+  "MyVpcF9F0CA6F": {
+   "Type": "AWS::EC2::VPC",
    "Properties": {
-    "AttributeDefinitions": [
+    "CidrBlock": "10.0.0.0/16",
+    "EnableDnsHostnames": true,
+    "EnableDnsSupport": true,
+    "InstanceTenancy": "default",
+    "Tags": [
      {
-      "AttributeName": "id",
-      "AttributeType": "S"
+      "Key": "Name",
+      "Value": "HonoPocStack/MyVpc"
      }
-    ],
-    "BillingMode": "PAY_PER_REQUEST",
-    "KeySchema": [
-     {
-      "AttributeName": "id",
-      "KeyType": "HASH"
-     }
-    ],
-    "TableName": "MyItemsTable"
+    ]
    },
-   "UpdateReplacePolicy": "Retain",
-   "DeletionPolicy": "Retain",
    "Metadata": {
-    "aws:cdk:path": "HonoPocStack/ItemsTable/Resource"
+    "aws:cdk:path": "HonoPocStack/MyVpc/Resource"
    }
   },
-  "lambdaServiceRole494E4CA6": {
+  "MyVpcPublicSubnet1SubnetF6608456": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      0,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.0.0/18",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "HonoPocStack/MyVpc/PublicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "MyVpcF9F0CA6F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyVpc/PublicSubnet1/Subnet"
+   }
+  },
+  "MyVpcPublicSubnet1RouteTableC46AB2F4": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "HonoPocStack/MyVpc/PublicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "MyVpcF9F0CA6F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyVpc/PublicSubnet1/RouteTable"
+   }
+  },
+  "MyVpcPublicSubnet1RouteTableAssociation2ECEE1CB": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "MyVpcPublicSubnet1RouteTableC46AB2F4"
+    },
+    "SubnetId": {
+     "Ref": "MyVpcPublicSubnet1SubnetF6608456"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyVpc/PublicSubnet1/RouteTableAssociation"
+   }
+  },
+  "MyVpcPublicSubnet1DefaultRoute95FDF9EB": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "MyVpcIGW5C4A4F63"
+    },
+    "RouteTableId": {
+     "Ref": "MyVpcPublicSubnet1RouteTableC46AB2F4"
+    }
+   },
+   "DependsOn": [
+    "MyVpcVPCGW488ACE0D"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyVpc/PublicSubnet1/DefaultRoute"
+   }
+  },
+  "MyVpcPublicSubnet1EIP096967CB": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "HonoPocStack/MyVpc/PublicSubnet1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyVpc/PublicSubnet1/EIP"
+   }
+  },
+  "MyVpcPublicSubnet1NATGatewayAD3400C1": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "MyVpcPublicSubnet1EIP096967CB",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "MyVpcPublicSubnet1SubnetF6608456"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "HonoPocStack/MyVpc/PublicSubnet1"
+     }
+    ]
+   },
+   "DependsOn": [
+    "MyVpcPublicSubnet1DefaultRoute95FDF9EB",
+    "MyVpcPublicSubnet1RouteTableAssociation2ECEE1CB"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyVpc/PublicSubnet1/NATGateway"
+   }
+  },
+  "MyVpcPublicSubnet2Subnet492B6BFB": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      1,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.64.0/18",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "HonoPocStack/MyVpc/PublicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "MyVpcF9F0CA6F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyVpc/PublicSubnet2/Subnet"
+   }
+  },
+  "MyVpcPublicSubnet2RouteTable1DF17386": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "HonoPocStack/MyVpc/PublicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "MyVpcF9F0CA6F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyVpc/PublicSubnet2/RouteTable"
+   }
+  },
+  "MyVpcPublicSubnet2RouteTableAssociation227DE78D": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "MyVpcPublicSubnet2RouteTable1DF17386"
+    },
+    "SubnetId": {
+     "Ref": "MyVpcPublicSubnet2Subnet492B6BFB"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyVpc/PublicSubnet2/RouteTableAssociation"
+   }
+  },
+  "MyVpcPublicSubnet2DefaultRoute052936F6": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "MyVpcIGW5C4A4F63"
+    },
+    "RouteTableId": {
+     "Ref": "MyVpcPublicSubnet2RouteTable1DF17386"
+    }
+   },
+   "DependsOn": [
+    "MyVpcVPCGW488ACE0D"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyVpc/PublicSubnet2/DefaultRoute"
+   }
+  },
+  "MyVpcPublicSubnet2EIP8CCBA239": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "HonoPocStack/MyVpc/PublicSubnet2"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyVpc/PublicSubnet2/EIP"
+   }
+  },
+  "MyVpcPublicSubnet2NATGateway91BFBEC9": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "MyVpcPublicSubnet2EIP8CCBA239",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "MyVpcPublicSubnet2Subnet492B6BFB"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "HonoPocStack/MyVpc/PublicSubnet2"
+     }
+    ]
+   },
+   "DependsOn": [
+    "MyVpcPublicSubnet2DefaultRoute052936F6",
+    "MyVpcPublicSubnet2RouteTableAssociation227DE78D"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyVpc/PublicSubnet2/NATGateway"
+   }
+  },
+  "MyVpcPrivateSubnet1Subnet5057CF7E": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      0,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.128.0/18",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "HonoPocStack/MyVpc/PrivateSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "MyVpcF9F0CA6F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyVpc/PrivateSubnet1/Subnet"
+   }
+  },
+  "MyVpcPrivateSubnet1RouteTable8819E6E2": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "HonoPocStack/MyVpc/PrivateSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "MyVpcF9F0CA6F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyVpc/PrivateSubnet1/RouteTable"
+   }
+  },
+  "MyVpcPrivateSubnet1RouteTableAssociation56D38C7E": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "MyVpcPrivateSubnet1RouteTable8819E6E2"
+    },
+    "SubnetId": {
+     "Ref": "MyVpcPrivateSubnet1Subnet5057CF7E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyVpc/PrivateSubnet1/RouteTableAssociation"
+   }
+  },
+  "MyVpcPrivateSubnet1DefaultRouteA8CDE2FA": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "MyVpcPublicSubnet1NATGatewayAD3400C1"
+    },
+    "RouteTableId": {
+     "Ref": "MyVpcPrivateSubnet1RouteTable8819E6E2"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyVpc/PrivateSubnet1/DefaultRoute"
+   }
+  },
+  "MyVpcPrivateSubnet2Subnet0040C983": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      1,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.192.0/18",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "HonoPocStack/MyVpc/PrivateSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "MyVpcF9F0CA6F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyVpc/PrivateSubnet2/Subnet"
+   }
+  },
+  "MyVpcPrivateSubnet2RouteTableCEDCEECE": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "HonoPocStack/MyVpc/PrivateSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "MyVpcF9F0CA6F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyVpc/PrivateSubnet2/RouteTable"
+   }
+  },
+  "MyVpcPrivateSubnet2RouteTableAssociation86A610DA": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "MyVpcPrivateSubnet2RouteTableCEDCEECE"
+    },
+    "SubnetId": {
+     "Ref": "MyVpcPrivateSubnet2Subnet0040C983"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyVpc/PrivateSubnet2/RouteTableAssociation"
+   }
+  },
+  "MyVpcPrivateSubnet2DefaultRoute9CE96294": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "MyVpcPublicSubnet2NATGateway91BFBEC9"
+    },
+    "RouteTableId": {
+     "Ref": "MyVpcPrivateSubnet2RouteTableCEDCEECE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyVpc/PrivateSubnet2/DefaultRoute"
+   }
+  },
+  "MyVpcIGW5C4A4F63": {
+   "Type": "AWS::EC2::InternetGateway",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "HonoPocStack/MyVpc"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyVpc/IGW"
+   }
+  },
+  "MyVpcVPCGW488ACE0D": {
+   "Type": "AWS::EC2::VPCGatewayAttachment",
+   "Properties": {
+    "InternetGatewayId": {
+     "Ref": "MyVpcIGW5C4A4F63"
+    },
+    "VpcId": {
+     "Ref": "MyVpcF9F0CA6F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyVpc/VPCGW"
+   }
+  },
+  "MyRDSInstanceSubnetGroup5EA5E186": {
+   "Type": "AWS::RDS::DBSubnetGroup",
+   "Properties": {
+    "DBSubnetGroupDescription": "Subnet group for MyRDSInstance database",
+    "SubnetIds": [
+     {
+      "Ref": "MyVpcPublicSubnet1SubnetF6608456"
+     },
+     {
+      "Ref": "MyVpcPublicSubnet2Subnet492B6BFB"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyRDSInstance/SubnetGroup/Default"
+   }
+  },
+  "MyRDSInstanceSecurityGroup7A5FFC3F": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Security group for MyRDSInstance database",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "MyVpcF9F0CA6F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyRDSInstance/SecurityGroup/Resource"
+   }
+  },
+  "MyRDSInstanceSecurityGroupfromHonoPocStackLambdaHandlerSecurityGroup7D684BBFIndirectPort45A05A63": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "Description": "from HonoPocStackLambdaHandlerSecurityGroup7D684BBF:{IndirectPort}",
+    "FromPort": {
+     "Fn::GetAtt": [
+      "MyRDSInstance48FD439C",
+      "Endpoint.Port"
+     ]
+    },
+    "GroupId": {
+     "Fn::GetAtt": [
+      "MyRDSInstanceSecurityGroup7A5FFC3F",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "LambdaHandlerSecurityGroupAB6AD3FA",
+      "GroupId"
+     ]
+    },
+    "ToPort": {
+     "Fn::GetAtt": [
+      "MyRDSInstance48FD439C",
+      "Endpoint.Port"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyRDSInstance/SecurityGroup/from HonoPocStackLambdaHandlerSecurityGroup7D684BBF:{IndirectPort}"
+   }
+  },
+  "HonoPocStackMyRDSInstanceSecretB9E04E3D3fdaad7efa858a3daf9490cf0a702aeb": {
+   "Type": "AWS::SecretsManager::Secret",
+   "Properties": {
+    "Description": {
+     "Fn::Join": [
+      "",
+      [
+       "Generated by the CDK for stack: ",
+       {
+        "Ref": "AWS::StackName"
+       }
+      ]
+     ]
+    },
+    "GenerateSecretString": {
+     "ExcludeCharacters": " %+~`#$&*()|[]{}:;<>?!'/@\"\\",
+     "GenerateStringKey": "password",
+     "PasswordLength": 30,
+     "SecretStringTemplate": "{\"username\":\"admin\"}"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyRDSInstance/Secret/Resource"
+   }
+  },
+  "MyRDSInstanceSecretAttachment4BDADC47": {
+   "Type": "AWS::SecretsManager::SecretTargetAttachment",
+   "Properties": {
+    "SecretId": {
+     "Ref": "HonoPocStackMyRDSInstanceSecretB9E04E3D3fdaad7efa858a3daf9490cf0a702aeb"
+    },
+    "TargetId": {
+     "Ref": "MyRDSInstance48FD439C"
+    },
+    "TargetType": "AWS::RDS::DBInstance"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyRDSInstance/Secret/Attachment/Resource"
+   }
+  },
+  "MyRDSInstance48FD439C": {
+   "Type": "AWS::RDS::DBInstance",
+   "Properties": {
+    "AllocatedStorage": "100",
+    "CopyTagsToSnapshot": true,
+    "DBInstanceClass": "db.t3.micro",
+    "DBName": "myrdbapp",
+    "DBSubnetGroupName": {
+     "Ref": "MyRDSInstanceSubnetGroup5EA5E186"
+    },
+    "DeletionProtection": false,
+    "Engine": "mysql",
+    "EngineVersion": "8.4.5",
+    "MasterUserPassword": {
+     "Fn::Join": [
+      "",
+      [
+       "{{resolve:secretsmanager:",
+       {
+        "Ref": "HonoPocStackMyRDSInstanceSecretB9E04E3D3fdaad7efa858a3daf9490cf0a702aeb"
+       },
+       ":SecretString:password::}}"
+      ]
+     ]
+    },
+    "MasterUsername": "admin",
+    "PubliclyAccessible": true,
+    "StorageType": "gp2",
+    "VPCSecurityGroups": [
+     {
+      "Fn::GetAtt": [
+       "MyRDSInstanceSecurityGroup7A5FFC3F",
+       "GroupId"
+      ]
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/MyRDSInstance/Resource"
+   }
+  },
+  "LambdaHandlerServiceRole8F7B4955": {
    "Type": "AWS::IAM::Role",
    "Properties": {
     "AssumeRolePolicyDocument": {
@@ -51,132 +642,248 @@
         ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
        ]
       ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+       ]
+      ]
      }
     ]
    },
+   "DependsOn": [
+    "MyVpcPrivateSubnet1DefaultRouteA8CDE2FA",
+    "MyVpcPrivateSubnet1RouteTableAssociation56D38C7E",
+    "MyVpcPrivateSubnet2DefaultRoute9CE96294",
+    "MyVpcPrivateSubnet2RouteTableAssociation86A610DA"
+   ],
    "Metadata": {
-    "aws:cdk:path": "HonoPocStack/lambda/ServiceRole/Resource"
+    "aws:cdk:path": "HonoPocStack/LambdaHandler/ServiceRole/Resource"
    }
   },
-  "lambdaServiceRoleDefaultPolicyBF6FA5E7": {
+  "LambdaHandlerServiceRoleDefaultPolicy52DB1F25": {
    "Type": "AWS::IAM::Policy",
    "Properties": {
     "PolicyDocument": {
      "Statement": [
       {
        "Action": [
-        "dynamodb:BatchGetItem",
-        "dynamodb:GetRecords",
-        "dynamodb:GetShardIterator",
-        "dynamodb:Query",
-        "dynamodb:GetItem",
-        "dynamodb:Scan",
-        "dynamodb:ConditionCheckItem",
-        "dynamodb:BatchWriteItem",
-        "dynamodb:PutItem",
-        "dynamodb:UpdateItem",
-        "dynamodb:DeleteItem",
-        "dynamodb:DescribeTable"
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret"
        ],
        "Effect": "Allow",
-       "Resource": [
-        {
-         "Fn::GetAtt": [
-          "ItemsTable5AAC2C46",
-          "Arn"
-         ]
-        },
-        {
-         "Ref": "AWS::NoValue"
-        }
-       ]
+       "Resource": {
+        "Ref": "MyRDSInstanceSecretAttachment4BDADC47"
+       }
       }
      ],
      "Version": "2012-10-17"
     },
-    "PolicyName": "lambdaServiceRoleDefaultPolicyBF6FA5E7",
+    "PolicyName": "LambdaHandlerServiceRoleDefaultPolicy52DB1F25",
     "Roles": [
      {
-      "Ref": "lambdaServiceRole494E4CA6"
+      "Ref": "LambdaHandlerServiceRole8F7B4955"
      }
     ]
    },
+   "DependsOn": [
+    "MyVpcPrivateSubnet1DefaultRouteA8CDE2FA",
+    "MyVpcPrivateSubnet1RouteTableAssociation56D38C7E",
+    "MyVpcPrivateSubnet2DefaultRoute9CE96294",
+    "MyVpcPrivateSubnet2RouteTableAssociation86A610DA"
+   ],
    "Metadata": {
-    "aws:cdk:path": "HonoPocStack/lambda/ServiceRole/DefaultPolicy/Resource"
+    "aws:cdk:path": "HonoPocStack/LambdaHandler/ServiceRole/DefaultPolicy/Resource"
    }
   },
-  "lambda8B5974B5": {
+  "LambdaHandlerSecurityGroupAB6AD3FA": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Automatic security group for Lambda Function HonoPocStackLambdaHandlerE2B2FBDD",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "MyVpcF9F0CA6F"
+    }
+   },
+   "DependsOn": [
+    "MyVpcPrivateSubnet1DefaultRouteA8CDE2FA",
+    "MyVpcPrivateSubnet1RouteTableAssociation56D38C7E",
+    "MyVpcPrivateSubnet2DefaultRoute9CE96294",
+    "MyVpcPrivateSubnet2RouteTableAssociation86A610DA"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "HonoPocStack/LambdaHandler/SecurityGroup/Resource"
+   }
+  },
+  "LambdaHandler212865DC": {
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "7b3252753110b39940813cc99f743e9f4247892f055194c3ec81cd12138d82b7.zip"
+     "S3Key": "85bad3c7cf9cc212f17e692042d2ccfc3f1531bae647af662a97ae0c2f63b571.zip"
     },
     "Environment": {
      "Variables": {
-      "TABLE_NAME": {
-       "Ref": "ItemsTable5AAC2C46"
+      "DB_NAME": "myrdbapp",
+      "DB_SECRET_NAME": {
+       "Fn::Join": [
+        "-",
+        [
+         {
+          "Fn::Select": [
+           0,
+           {
+            "Fn::Split": [
+             "-",
+             {
+              "Fn::Select": [
+               6,
+               {
+                "Fn::Split": [
+                 ":",
+                 {
+                  "Ref": "HonoPocStackMyRDSInstanceSecretB9E04E3D3fdaad7efa858a3daf9490cf0a702aeb"
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "Fn::Select": [
+           1,
+           {
+            "Fn::Split": [
+             "-",
+             {
+              "Fn::Select": [
+               6,
+               {
+                "Fn::Split": [
+                 ":",
+                 {
+                  "Ref": "HonoPocStackMyRDSInstanceSecretB9E04E3D3fdaad7efa858a3daf9490cf0a702aeb"
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       ]
       }
      }
     },
     "Handler": "index.handler",
     "Role": {
      "Fn::GetAtt": [
-      "lambdaServiceRole494E4CA6",
+      "LambdaHandlerServiceRole8F7B4955",
       "Arn"
      ]
     },
-    "Runtime": "nodejs18.x"
+    "Runtime": "nodejs18.x",
+    "VpcConfig": {
+     "SecurityGroupIds": [
+      {
+       "Fn::GetAtt": [
+        "LambdaHandlerSecurityGroupAB6AD3FA",
+        "GroupId"
+       ]
+      }
+     ],
+     "SubnetIds": [
+      {
+       "Ref": "MyVpcPrivateSubnet1Subnet5057CF7E"
+      },
+      {
+       "Ref": "MyVpcPrivateSubnet2Subnet0040C983"
+      }
+     ]
+    }
    },
    "DependsOn": [
-    "lambdaServiceRoleDefaultPolicyBF6FA5E7",
-    "lambdaServiceRole494E4CA6"
+    "LambdaHandlerServiceRoleDefaultPolicy52DB1F25",
+    "LambdaHandlerServiceRole8F7B4955",
+    "MyVpcPrivateSubnet1DefaultRouteA8CDE2FA",
+    "MyVpcPrivateSubnet1RouteTableAssociation56D38C7E",
+    "MyVpcPrivateSubnet2DefaultRoute9CE96294",
+    "MyVpcPrivateSubnet2RouteTableAssociation86A610DA"
    ],
    "Metadata": {
-    "aws:cdk:path": "HonoPocStack/lambda/Resource",
-    "aws:asset:path": "asset.7b3252753110b39940813cc99f743e9f4247892f055194c3ec81cd12138d82b7",
+    "aws:cdk:path": "HonoPocStack/LambdaHandler/Resource",
+    "aws:asset:path": "/home/higorasilverio/backend/hono-poc",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
   },
-  "lambdaFunctionUrl327AA8ED": {
+  "LambdaHandlerFunctionUrlCA171E58": {
    "Type": "AWS::Lambda::Url",
    "Properties": {
     "AuthType": "NONE",
     "TargetFunctionArn": {
      "Fn::GetAtt": [
-      "lambda8B5974B5",
+      "LambdaHandler212865DC",
       "Arn"
      ]
     }
    },
+   "DependsOn": [
+    "MyVpcPrivateSubnet1DefaultRouteA8CDE2FA",
+    "MyVpcPrivateSubnet1RouteTableAssociation56D38C7E",
+    "MyVpcPrivateSubnet2DefaultRoute9CE96294",
+    "MyVpcPrivateSubnet2RouteTableAssociation86A610DA"
+   ],
    "Metadata": {
-    "aws:cdk:path": "HonoPocStack/lambda/FunctionUrl/Resource"
+    "aws:cdk:path": "HonoPocStack/LambdaHandler/FunctionUrl/Resource"
    }
   },
-  "lambdainvokefunctionurl8987155C": {
+  "LambdaHandlerinvokefunctionurlDD7A1B95": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunctionUrl",
     "FunctionName": {
      "Fn::GetAtt": [
-      "lambda8B5974B5",
+      "LambdaHandler212865DC",
       "Arn"
      ]
     },
     "FunctionUrlAuthType": "NONE",
     "Principal": "*"
    },
+   "DependsOn": [
+    "MyVpcPrivateSubnet1DefaultRouteA8CDE2FA",
+    "MyVpcPrivateSubnet1RouteTableAssociation56D38C7E",
+    "MyVpcPrivateSubnet2DefaultRoute9CE96294",
+    "MyVpcPrivateSubnet2RouteTableAssociation86A610DA"
+   ],
    "Metadata": {
-    "aws:cdk:path": "HonoPocStack/lambda/invoke-function-url"
+    "aws:cdk:path": "HonoPocStack/LambdaHandler/invoke-function-url"
    }
   },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/z2OTW/CMAxAfwv31JTCYdeBxHFDhZ0rNwnIbT6mOhlCUf47Sss4vWfJfnIDTV3DZoV3rqQaK0M9pHNAOQq8c5fUw6H1qod0wd5ocbi6WbIwaHuFnfNKDwxfM47RyUDeCUILqfXLwcyTNyQfZVwsC952yKwDw2eB4C3soxx12CPrVx7S4ere1X/5mUwJvXDSkyVm8i5n0Wr2cZJazM1zwBu5W9n6juE3hizKvzDw+m/zAU0Nu9XARNUUXSCroV34BKGksw0WAQAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/31QQW7CMBB8C3fjQuihVwItyoVGCeWKNs42NSQ28q5BKMrfqySQoB56mvF4dna0gQxmMzmfwJWmKj9NS53JOmVQJwFXOtSoAlnvz0qsvs0+XonYZ6VWqc8McquNLLGecQdZiaM+aksiqzSwtmYwt+Q9ilvYAm+A8Qo3ETt9AcYxODKMzuBg6JvcX0tmUD8VGhYpKu803zbO+nPX4V8hMoVDoka4nGS9BoYMCCNDDEah6PcPo+vwWXi4U1SuL7kOH5ONoE6lCgwU6GTdb26NPezAFchPzQfD359GlFBlORyMzfFIctvBhzeqO6SGStaJ7S/eYWxLrboT9awRtDgAETLJZQuCFjL06oQcAuE9vqs4pD7IlyvboDvE6CpNpK1pGpEgWe8Uii4zZSi0KVrXp+ez50a0feWRXi7zNxnM5OvkSFpPnTesK5RJj78d/wT5fAIAAA=="
    },
    "Metadata": {
     "aws:cdk:path": "HonoPocStack/CDKMetadata/Default"
@@ -188,14 +895,9 @@
   "lambdaUrl": {
    "Value": {
     "Fn::GetAtt": [
-     "lambdaFunctionUrl327AA8ED",
+     "LambdaHandlerFunctionUrlCA171E58",
      "FunctionUrl"
     ]
-   }
-  },
-  "tableName": {
-   "Value": {
-    "Ref": "ItemsTable5AAC2C46"
    }
   }
  },

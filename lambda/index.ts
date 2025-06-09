@@ -1,67 +1,76 @@
 import { Hono } from 'hono'
 import { handle } from 'hono/aws-lambda'
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
-import {
-  DynamoDBDocumentClient,
-  PutCommand,
-  GetCommand,
-  ScanCommand,
-  DeleteCommand,
-  UpdateCommand,
-} from '@aws-sdk/lib-dynamodb'
+import { getDb } from './db'
+import { items } from '../drizzle/schema'
+import { eq } from 'drizzle-orm'
 
 const app = new Hono()
 
-const tableName = process.env.TABLE_NAME!
-const db = DynamoDBDocumentClient.from(new DynamoDBClient({}))
-
 // POST /items
 app.post('/items', async (c) => {
-  const body = await c.req.json()
-  const id = crypto.randomUUID()
-  const item = { id, name: body.name }
-
-  await db.send(new PutCommand({ TableName: tableName, Item: item }))
-  return c.json(item, 201)
+  try {
+    const body = await c.req.json()
+    if (!body.name) {
+      return c.json({ success: false, message: 'Missing item name' }, 400)
+    }
+    const db = await getDb()
+    const result = await db.insert(items).values({ name: body.name })
+    return c.json({ success: true, ...result })
+  } catch (error) {
+    console.error(error)
+    return c.json({ success: false, message: 'Failed to create item' }, 500)
+  }
 })
 
 // GET /items
 app.get('/items', async (c) => {
-  const result = await db.send(new ScanCommand({ TableName: tableName }))
-  return c.json(result.Items ?? [])
-})
-
-// GET /items/:id
-app.get('/items/:id', async (c) => {
-  const id = c.req.param('id')
-  const result = await db.send(new GetCommand({ TableName: tableName, Key: { id } }))
-  if (!result.Item) return c.text('Not Found', 404)
-  return c.json(result.Item)
+  try {
+    const db = await getDb()
+    const result = await db.select().from(items)
+    return c.json(result)
+  } catch (error) {
+    console.error(error)
+    return c.json({ success: false, message: 'Failed to fetch items' }, 500)
+  }
 })
 
 // PUT /items/:id
 app.put('/items/:id', async (c) => {
-  const id = c.req.param('id')
-  const body = await c.req.json()
+  try {
+    const id = Number(c.req.param('id'))
+    if (isNaN(id)) {
+      return c.json({ success: false, message: 'Invalid item ID' }, 400)
+    }
 
-  await db.send(
-    new UpdateCommand({
-      TableName: tableName,
-      Key: { id },
-      UpdateExpression: 'set #name = :name',
-      ExpressionAttributeNames: { '#name': 'name' },
-      ExpressionAttributeValues: { ':name': body.name },
-    })
-  )
+    const body = await c.req.json()
+    if (!body.name) {
+      return c.json({ success: false, message: 'Missing item name' }, 400)
+    }
 
-  return c.text('Updated')
+    const db = await getDb()
+    const result = await db.update(items).set({ name: body.name }).where(eq(items.id, id))
+    return c.json({ success: true, ...result })
+  } catch (error) {
+    console.error(error)
+    return c.json({ success: false, message: 'Failed to update item' }, 500)
+  }
 })
 
 // DELETE /items/:id
 app.delete('/items/:id', async (c) => {
-  const id = c.req.param('id')
-  await db.send(new DeleteCommand({ TableName: tableName, Key: { id } }))
-  return c.text('Deleted')
+  try {
+    const id = Number(c.req.param('id'))
+    if (isNaN(id)) {
+      return c.json({ success: false, message: 'Invalid item ID' }, 400)
+    }
+
+    const db = await getDb()
+    const result = await db.delete(items).where(eq(items.id, id))
+    return c.json({ success: true, ...result })
+  } catch (error) {
+    console.error(error)
+    return c.json({ success: false, message: 'Failed to delete item' }, 500)
+  }
 })
 
 export const handler = handle(app)

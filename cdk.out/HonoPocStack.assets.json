@@ -1,21 +1,21 @@
 {
   "version": "44.0.0",
   "files": {
-    "7b3252753110b39940813cc99f743e9f4247892f055194c3ec81cd12138d82b7": {
-      "displayName": "lambda/Code",
+    "85bad3c7cf9cc212f17e692042d2ccfc3f1531bae647af662a97ae0c2f63b571": {
+      "displayName": "LambdaHandler/Code",
       "source": {
-        "path": "asset.7b3252753110b39940813cc99f743e9f4247892f055194c3ec81cd12138d82b7",
+        "path": "/home/higorasilverio/backend/hono-poc",
         "packaging": "zip"
       },
       "destinations": {
         "current_account-current_region": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "7b3252753110b39940813cc99f743e9f4247892f055194c3ec81cd12138d82b7.zip",
+          "objectKey": "85bad3c7cf9cc212f17e692042d2ccfc3f1531bae647af662a97ae0c2f63b571.zip",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }
     },
-    "3d91a0d6178648a7ca03b066d0cedfd0aed5be4d89e2b5ce0e7b305ffbacb744": {
+    "0d61ee601422f1c3a791188ce735f4e4761a103f4771f4d4da2d5fe5d199fc4e": {
       "displayName": "HonoPocStack Template",
       "source": {
         "path": "HonoPocStack.template.json",
@@ -24,7 +24,7 @@
       "destinations": {
         "current_account-current_region": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "3d91a0d6178648a7ca03b066d0cedfd0aed5be4d89e2b5ce0e7b305ffbacb744.json",
+          "objectKey": "0d61ee601422f1c3a791188ce735f4e4761a103f4771f4d4da2d5fe5d199fc4e.json",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }

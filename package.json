@@ -2,16 +2,22 @@
   "name": "hono-poc",
   "version": "1.0.0",
   "scripts": {
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "db:push": "drizzle-kit push"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.826.0",
+    "@aws-sdk/client-secrets-manager": "^3.826.0",
     "@aws-sdk/lib-dynamodb": "^3.826.0",
     "aws-cdk-lib": "^2.130.0",
     "constructs": "^10.0.0",
-    "hono": "^3.11.4"
+    "dotenv": "^16.5.0",
+    "drizzle-orm": "^0.44.2",
+    "hono": "^3.11.4",
+    "mysql2": "^3.14.1"
   },
   "devDependencies": {
+    "drizzle-kit": "^0.31.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.0"
   }

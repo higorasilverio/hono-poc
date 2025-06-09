@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/3d91a0d6178648a7ca03b066d0cedfd0aed5be4d89e2b5ce0e7b305ffbacb744.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/0d61ee601422f1c3a791188ce735f4e4761a103f4771f4d4da2d5fe5d199fc4e.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -34,60 +34,220 @@
         "HonoPocStack.assets"
       ],
       "metadata": {
-        "/HonoPocStack/ItemsTable": [
-          {
-            "type": "aws:cdk:hasPhysicalName",
-            "data": {
-              "Ref": "ItemsTable5AAC2C46"
-            }
-          }
-        ],
-        "/HonoPocStack/ItemsTable/Resource": [
+        "/HonoPocStack/MyVpc/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ItemsTable5AAC2C46"
+            "data": "MyVpcF9F0CA6F"
           }
         ],
-        "/HonoPocStack/lambda/ServiceRole/Resource": [
+        "/HonoPocStack/MyVpc/PublicSubnet1/Subnet": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "lambdaServiceRole494E4CA6"
+            "data": "MyVpcPublicSubnet1SubnetF6608456"
           }
         ],
-        "/HonoPocStack/lambda/ServiceRole/DefaultPolicy/Resource": [
+        "/HonoPocStack/MyVpc/PublicSubnet1/RouteTable": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "lambdaServiceRoleDefaultPolicyBF6FA5E7"
+            "data": "MyVpcPublicSubnet1RouteTableC46AB2F4"
           }
         ],
-        "/HonoPocStack/lambda/Resource": [
+        "/HonoPocStack/MyVpc/PublicSubnet1/RouteTableAssociation": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "lambda8B5974B5"
+            "data": "MyVpcPublicSubnet1RouteTableAssociation2ECEE1CB"
           }
         ],
-        "/HonoPocStack/lambda/FunctionUrl/Resource": [
+        "/HonoPocStack/MyVpc/PublicSubnet1/DefaultRoute": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "lambdaFunctionUrl327AA8ED"
+            "data": "MyVpcPublicSubnet1DefaultRoute95FDF9EB"
           }
         ],
-        "/HonoPocStack/lambda/invoke-function-url": [
+        "/HonoPocStack/MyVpc/PublicSubnet1/EIP": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "lambdainvokefunctionurl8987155C"
+            "data": "MyVpcPublicSubnet1EIP096967CB"
+          }
+        ],
+        "/HonoPocStack/MyVpc/PublicSubnet1/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPublicSubnet1NATGatewayAD3400C1"
+          }
+        ],
+        "/HonoPocStack/MyVpc/PublicSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPublicSubnet2Subnet492B6BFB"
+          }
+        ],
+        "/HonoPocStack/MyVpc/PublicSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPublicSubnet2RouteTable1DF17386"
+          }
+        ],
+        "/HonoPocStack/MyVpc/PublicSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPublicSubnet2RouteTableAssociation227DE78D"
+          }
+        ],
+        "/HonoPocStack/MyVpc/PublicSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPublicSubnet2DefaultRoute052936F6"
+          }
+        ],
+        "/HonoPocStack/MyVpc/PublicSubnet2/EIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPublicSubnet2EIP8CCBA239"
+          }
+        ],
+        "/HonoPocStack/MyVpc/PublicSubnet2/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPublicSubnet2NATGateway91BFBEC9"
+          }
+        ],
+        "/HonoPocStack/MyVpc/PrivateSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPrivateSubnet1Subnet5057CF7E"
+          }
+        ],
+        "/HonoPocStack/MyVpc/PrivateSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPrivateSubnet1RouteTable8819E6E2"
+          }
+        ],
+        "/HonoPocStack/MyVpc/PrivateSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPrivateSubnet1RouteTableAssociation56D38C7E"
+          }
+        ],
+        "/HonoPocStack/MyVpc/PrivateSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPrivateSubnet1DefaultRouteA8CDE2FA"
+          }
+        ],
+        "/HonoPocStack/MyVpc/PrivateSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPrivateSubnet2Subnet0040C983"
+          }
+        ],
+        "/HonoPocStack/MyVpc/PrivateSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPrivateSubnet2RouteTableCEDCEECE"
+          }
+        ],
+        "/HonoPocStack/MyVpc/PrivateSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPrivateSubnet2RouteTableAssociation86A610DA"
+          }
+        ],
+        "/HonoPocStack/MyVpc/PrivateSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPrivateSubnet2DefaultRoute9CE96294"
+          }
+        ],
+        "/HonoPocStack/MyVpc/IGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcIGW5C4A4F63"
+          }
+        ],
+        "/HonoPocStack/MyVpc/VPCGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcVPCGW488ACE0D"
+          }
+        ],
+        "/HonoPocStack/MyRDSInstance/SubnetGroup/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyRDSInstanceSubnetGroup5EA5E186"
+          }
+        ],
+        "/HonoPocStack/MyRDSInstance/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyRDSInstanceSecurityGroup7A5FFC3F"
+          }
+        ],
+        "/HonoPocStack/MyRDSInstance/SecurityGroup/from HonoPocStackLambdaHandlerSecurityGroup7D684BBF:{IndirectPort}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyRDSInstanceSecurityGroupfromHonoPocStackLambdaHandlerSecurityGroup7D684BBFIndirectPort45A05A63"
+          }
+        ],
+        "/HonoPocStack/MyRDSInstance/Secret/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HonoPocStackMyRDSInstanceSecretB9E04E3D3fdaad7efa858a3daf9490cf0a702aeb"
+          }
+        ],
+        "/HonoPocStack/MyRDSInstance/Secret/Attachment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyRDSInstanceSecretAttachment4BDADC47"
+          }
+        ],
+        "/HonoPocStack/MyRDSInstance/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyRDSInstance48FD439C"
+          }
+        ],
+        "/HonoPocStack/LambdaHandler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaHandlerServiceRole8F7B4955"
+          }
+        ],
+        "/HonoPocStack/LambdaHandler/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaHandlerServiceRoleDefaultPolicy52DB1F25"
+          }
+        ],
+        "/HonoPocStack/LambdaHandler/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaHandlerSecurityGroupAB6AD3FA"
+          }
+        ],
+        "/HonoPocStack/LambdaHandler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaHandler212865DC"
+          }
+        ],
+        "/HonoPocStack/LambdaHandler/FunctionUrl/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaHandlerFunctionUrlCA171E58"
+          }
+        ],
+        "/HonoPocStack/LambdaHandler/invoke-function-url": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaHandlerinvokefunctionurlDD7A1B95"
           }
         ],
         "/HonoPocStack/lambdaUrl": [
           {
             "type": "aws:cdk:logicalId",
             "data": "lambdaUrl"
-          }
-        ],
-        "/HonoPocStack/tableName": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "tableName"
           }
         ],
         "/HonoPocStack/CDKMetadata/Default": [
