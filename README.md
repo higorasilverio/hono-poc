@@ -41,7 +41,40 @@ curl -X POST https://your-url/items -H "Content-Type: application/json" -d '{"na
 npm install
 ```
 
-2. **Set up environment variables**
+2. **Bootstrap your AWS environment (first time only)**
+
+```bash
+npx cdk bootstrap
+```
+
+3. **Deploy the app**
+
+```bash
+npx cdk deploy
+```
+
+4. **Get the API URL**
+
+Look for the output:
+
+```bash
+HonoPocStack.lambdaUrl = https://xyz.lambda-url.region.on.aws/
+```
+
+5. **Access you AWS account**
+
+Access the Secrets Manager console inside AWS to get the database password, name, port, username, and host.  
+You may also need to access the VPC security group of your RDS instance to allow your IP to access the resource:
+
+- On RDS console, click the link to the VPC security groups;
+- On EC2 console, you will see the security groups table. Click on the `Security group ID` of your application;
+- Inside the Inbound rules table, click `Edit inbound rules`;
+- Click `Add rule`. Fullfil the filds with the following data: `MYSQL/Aurora`, `Anywhere-IPv4`, `0.0.0.0/0`, and the description is optional. Click `Save rules`.
+
+> **Important**: The configuration made to enable Anywhere-IPv4 is for test purposes only.  
+> You can also use you IP selecting My IP and typing your IP address.
+
+6. **Set up environment variables**
 
 ```bash
 DB_HOST=your-db-hostname
@@ -52,32 +85,12 @@ DB_NAME=your-db-name
 ```
 > **Important**: Do not commit .env to GitHub. It's ignored via .gitignore.
 
-3. **Push the database schema**
+7. **Push the database schema**
 
 Run the following to sync your schema to the RDS instance:
 
 ```bash
 npx drizzle-kit push
-```
-
-4. **Bootstrap your AWS environment (first time only)**
-
-```bash
-npx cdk bootstrap
-```
-
-5. **Deploy the app**
-
-```bash
-npx cdk deploy
-```
-
-6. **Get the API URL**
-
-Look for the output:
-
-```bash
-HonoPocStack.lambdaUrl = https://xyz.lambda-url.region.on.aws/
 ```
 
 You can now test the API using curl, Postman, or your browser.
